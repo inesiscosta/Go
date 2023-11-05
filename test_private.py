@@ -2,7 +2,7 @@
 import pytest
 import sys
 project_filename = 'Go.py'
-ADT_CODE_PATH = '/ADT_code/'
+ADT_CODE_PATH = 'ADT_code/'
 from Go import *
 
 @pytest.fixture(autouse=True)
