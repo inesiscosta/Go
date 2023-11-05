@@ -378,7 +378,7 @@ def obtain_chain(goban: list, intersection: 'tuple[str,int]'):
     :rtype: list[tuple[str,int]]
     """
     # Tail Recursion
-    def _find_chain(goban: list, intersection: 'tuple[str,int]', visited: set('tuple[str,int]')) -> list['tuple[str,int]']:
+    def _find_chain(goban: list, intersection: tuple[str,int], visited: set['tuple[str,int]']) -> list[tuple[str,int]]:
         # Auxiliary Internal function that looks for chains by finding adjacents of adjacents
         visited.add(intersection)
         adjacents = obtain_adjacent_intersections(intersection, obtain_last_intersection(goban))
@@ -508,7 +508,8 @@ def goban_to_str(goban: list) -> str:
     :return: A string that represents the goban.
     :rtype: str
     """
-    num_columns = obtain_row(obtain_last_intersection(goban)) # Can use obtain_row because the goban is square so it has the same number of columns and rows.
+    # Can use obtain_row because the goban is square so it has the same number of columns and rows.
+    num_columns = obtain_row(obtain_last_intersection(goban))
     # Creates a dictionary that connects the indices of the column to the letters A, B, C, etc.
     vertical_label = {i: chr(65+i) for i in range(num_columns)}
     res = "   " + " ".join([vertical_label[i] for i in range(num_columns)]) + "\n "
@@ -730,7 +731,6 @@ def player_turn(goban: list, stone: str, prev_goban: list) -> bool:
     while not valid_turn:
         # Asks the player for a move.
         move = input(f"Write down an intersection or 'P' to pass the turn [{stone_to_str(stone)}]:")
-    
         # Checks if a player decided to pass their turn.
         if move == 'P':
             return False

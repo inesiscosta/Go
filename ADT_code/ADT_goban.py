@@ -1,4 +1,5 @@
 from random import randint
+
 def create_empty_goban(n):
     if type(n) == int and n in (9, 13, 19):
         return [randint(0, 10**6), (n, {})]
@@ -18,7 +19,7 @@ def create_goban(n, white_intersections, black_intersections):
                     for i in black_intersections: 
                         if is_player_stone(obtain_stone(goban, i)):
                             raise ValueError('create_goban: invalid arguments')  
-                        place_stone(goban, i, create_neutral_stone())
+                        place_stone(goban, i, create_black_stone())
                     return goban
     
     raise ValueError('create_goban: invalid arguments')   
@@ -63,26 +64,26 @@ def remove_chain(board, tuplo):
     return board
 
 def is_goban(arg):
-    def intersecao_dentro_limites(i1, i2):
+    def intersection_within_limits(i1, i2):
         return 'A' <= obtain_col(i1) <= obtain_col(i2) and 1 <= obtain_row(i1) <= obtain_row(i2)
     return isinstance(arg,list) and len(arg) == 2 and type(arg[0]) == int and \
         type(arg[1]) == tuple and len(arg[1]) == 2 and type(arg[1][0]) == int and arg[1][0] in (9, 13, 19) \
         and type(arg[1][1]) == dict and  all(is_intersection(k) for k in arg[1][1]) and \
-            all(intersecao_dentro_limites(k, obtain_last_intersection(arg)) for k in arg[1][1]) and \
+            all(intersection_within_limits(k, obtain_last_intersection(arg)) for k in arg[1][1]) and \
                 all(is_stone(arg[1][1][k]) for k in arg[1][1])
         
 def is_valid_intersection(board, pos):
-    def intersecao_dentro_limites(i1, i2):
+    def intersection_within_limits(i1, i2):
         return 'A' <= obtain_col(i1) <= obtain_col(i2) and 1 <= obtain_row(i1) <= obtain_row(i2)
-    return intersecao_dentro_limites(pos, obtain_last_intersection(board))
+    return intersection_within_limits(pos, obtain_last_intersection(board))
 
-def gobans_iguais(g1, g2):
+def equal_gobans(g1, g2):
     if is_goban(g1) and is_goban(g2) and g1[1][0] == g2[1][0]: 
         if sorted(g1[1][1].keys()) == sorted(g2[1][1].keys()):
             return all(equal_stones(g1[1][1][k], g2[1][1][k]) for k in g1[1][1])
     return False
 
-def goban_para_str(board):    
+def goban_to_str(board):    
     LETTERS = tuple('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
     n_v, n_h = board[1][0], board[1][0]
     res = '   ' + ''.join(f'{l} ' for l in LETTERS[:n_v]).rstrip() + '\n' 

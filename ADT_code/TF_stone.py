@@ -20,12 +20,12 @@ def is_white_stone(arg):
 def is_black_stone(arg):
     return is_stone(arg) and arg[1] == '.X.'
 
-def equal_stones(p1, p2):
-    return is_stone(p1) and is_stone(p2) and p1[1] == p2[1]
+def equal_stones(s1, s2):
+    return is_stone(s1) and is_stone(s2) and s1[1] == s2[1]
 
-def stone_to_str(p):
-    return p[1][1]
+def stone_to_str(s):
+    return s[1][1]
 
-def is_player_stone(pedra):
-    return is_white_stone(pedra) or is_black_stone(pedra)
+def is_player_stone(stone):
+    return is_white_stone(stone) or is_black_stone(stone)
 

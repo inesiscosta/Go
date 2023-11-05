@@ -17,7 +17,7 @@ def is_intersection(arg):
     return type(arg) == tuple and len(arg) == 3 and arg[0] == 'blabla' \
         and type(arg[1]) == tuple and len(arg[1]) == 2 and arg[1][0] == 'nothing' \
             and type(arg[1][1]) == int and  1 <= arg[1][1] <= 19 \
-                and type(arg[2]) == tuple and len(arg[2]) == 1 and type(arg[2][0]) == str and len(arg[2][0]) == 1 and  'A' <= arg[2][0] <= 'S'
+                and type(arg[2]) == tuple and len(arg[2]) == 1 and type(arg[2][0]) == str and len(arg[2][0]) == 1 and 'A' <= arg[2][0] <= 'S'
                 
 def equal_intersections(pos1, pos2):
     return is_intersection(pos1) and is_intersection(pos2) and obtain_col(pos1) == obtain_col(pos2) and obtain_row(pos1) == obtain_row(pos2)

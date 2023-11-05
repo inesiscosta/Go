@@ -1296,8 +1296,8 @@ class TestPrivateADTGobanHLF:
         black_intersections = tuple(str_to_intersection(i) \
             for i in ('A1', 'A2', 'B1', 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'))
         g = create_goban(9, white_intersections, black_intersections)
-        b = create_white_stone()
-        _ = play(g, create_intersection('B', 2), b)
+        w = create_white_stone()
+        _ = play(g, create_intersection('B', 2), w)
         assert goban_to_str(g) == \
 """   A B C D E F G H I
  9 . . . . . . . . .  9

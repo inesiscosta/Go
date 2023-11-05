@@ -81,7 +81,7 @@ def is_valid_intersection(board, pos):
         return 'A' <= obtain_col(i1) <= obtain_col(i2) and 1 <= obtain_row(i1) <= obtain_row(i2)
     return intersection_within_limits(pos, obtain_last_intersection(board))
 
-def gobans_iguais(g1, g2):
+def equal_gobans(g1, g2):
     if is_goban(g1) and is_goban(g2) and g1[1][0] == g2[1][0]: 
         if sorted(g1[1][1].keys()) == sorted(g2[1][1].keys()):
             return all(equal_stones(g1[1][1][k], g2[1][1][k]) for k in g1[1][1])
@@ -118,11 +118,11 @@ def obtain_different_adjacents(board, stone_chain):
 def play(board, pos, stone):
     place_stone(board, pos, stone)
     for new_pos in obtain_adjacent_intersections(pos, obtain_last_intersection(board)):
-        outra_pedra = obtain_stone(board, new_pos)
-        if is_player_stone(outra_pedra) and not equal_stones(stone, outra_pedra):
-            cadeia = obtain_chain(board, new_pos)
-            if len(obtain_different_adjacents(board, cadeia)) == 0:
-                remove_chain(board, cadeia)
+        other_stone = obtain_stone(board, new_pos)
+        if is_player_stone(other_stone) and not equal_stones(stone, other_stone):
+            chain = obtain_chain(board, new_pos)
+            if len(obtain_different_adjacents(board, chain)) == 0:
+                remove_chain(board, chain)
     return board
                     
 def obtain_player_stones(board):
