@@ -1,7 +1,15 @@
 # pylint: skip-file
 import pytest 
-from Go import *
+project_filename = 'Go.py'
 import sys
+
+@pytest.fixture(autouse=True)
+def run_around_tests():
+    # Code that will run before your test, for example:
+    exec(open(project_filename, encoding="utf-8").read(), globals())
+
+    # A test function will be run at this point
+    yield
 
 class TestPublicIntersection:
 

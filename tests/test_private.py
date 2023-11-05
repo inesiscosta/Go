@@ -2,8 +2,7 @@
 import pytest
 import sys
 project_filename = 'Go.py'
-ADT_CODE_PATH = 'ADT_code/'
-from Go import *
+ADT_CODE_PATH = 'tests/ADT_code/'
 
 @pytest.fixture(autouse=True)
 def run_around_tests():

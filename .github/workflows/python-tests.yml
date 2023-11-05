@@ -22,4 +22,4 @@ jobs:
 
     - name: Run tests
       run: |
-        python -m pytest -v --tb=short test_public.py test_private.py
+        python -m pytest -v --tb=short tests/test_public.py tests/test_private.py
