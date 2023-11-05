@@ -1,8 +1,8 @@
 # pylint: skip-file
 import pytest
 import sys
-project_filename = '/Users/inescosta/Documents/IST/FProg/proj2/github/Go.py'
-ADT_CODE_PATH = '/Users/inescosta/Documents/IST/FProg/proj2/github/ADT_code/'
+project_filename = 'Go.py'
+ADT_CODE_PATH = '/ADT_code/'
 from Go import *
 
 @pytest.fixture(autouse=True)
