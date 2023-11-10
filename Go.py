@@ -316,13 +316,13 @@ def create_goban(n: int, white_intersections: 'tuple[tuple[str,int], ...]', blac
         # Verifies the intersections are valid and are not found in black_intersections.
         if not is_intersection(white_intersection) or not is_valid_intersection(goban, white_intersection)\
             or white_intersection in black_intersections:
-            raise ValueError('create_goban: argumentos invalidos')
+            raise ValueError('create_goban: invalid arguments')
         place_stone(goban,white_intersection,create_white_stone())
 
     for black_intersection in black_intersections:
         # Verifies all intersections in black_intersections are valid intersections.
         if not is_intersection(black_intersection) or not is_valid_intersection(goban, black_intersection):
-            raise ValueError('create_goban: argumentos invalidos')
+            raise ValueError('create_goban: invalid arguments')
         place_stone(goban,black_intersection,create_black_stone())
     return goban
 
