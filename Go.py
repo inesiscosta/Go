@@ -192,7 +192,7 @@ def is_stone(arg:any) -> bool:
     """
     return arg in {create_white_stone(),create_black_stone(),create_neutral_stone()}
 
-def is_stone_white(stone: str) -> bool:
+def is_white_stone(stone: str) -> bool:
     """
     Verifies if a stone is white.
 
@@ -204,7 +204,7 @@ def is_stone_white(stone: str) -> bool:
     """
     return stone == create_white_stone()
 
-def is_stone_black(stone: str) -> bool:
+def is_black_stone(stone: str) -> bool:
     """
     Verifies if a stone is black.
 
@@ -230,9 +230,9 @@ def equal_stones(stone1: str,stone2: str) -> bool:
     :rtype: bool
     """
     return is_stone(stone1) and is_stone(stone2) \
-        and ((is_stone_white(stone1) and is_stone_white(stone2)) or\
-        (is_stone_black(stone1) and is_stone_black(stone2)) or\
-        (not is_stone_player(stone1) and not is_stone_player(stone2)))
+        and ((is_white_stone(stone1) and is_white_stone(stone2)) or\
+        (is_black_stone(stone1) and is_black_stone(stone2)) or\
+        (not is_player_stone(stone1) and not is_player_stone(stone2)))
 
 # Transformer (mutator)
 def stone_to_str(stone: str) -> str:
@@ -245,15 +245,15 @@ def stone_to_str(stone: str) -> str:
     :return: A string that represents the stone (external representaion).
     :rtype: str
     """
-    if is_stone_white(stone):
+    if is_white_stone(stone):
         return "O"
-    elif is_stone_black(stone):
+    elif is_black_stone(stone):
         return "X"
     else:
         return "."
 
 # High-Level Functions
-def is_stone_player(stone: str) -> bool:
+def is_player_stone(stone: str) -> bool:
     """
     Verifies if a stone belongs to a player (if it's a white or black stone).
 
@@ -263,7 +263,7 @@ def is_stone_player(stone: str) -> bool:
     :return: True if the stone belongs to a player, False otherwise.
     :rtype: bool
     """
-    return is_stone_white(stone) or is_stone_black(stone)
+    return is_white_stone(stone) or is_black_stone(stone)
 
 # Goban ADT
 # Constructor
@@ -550,7 +550,7 @@ def obtain_territories(goban: list) -> 'tuple[tuple[tuple[str,int], ...], ...]':
             intersection = create_intersection(chr(j+ord("A")),k+1)
             # Checks if an intersections is valid and free
             if is_valid_intersection(goban, intersection) and\
-                (not is_stone_player(obtain_stone(goban,intersection)) and\
+                (not is_player_stone(obtain_stone(goban,intersection)) and\
                 not any(intersection in i for i in territories)):
                 territories.append(obtain_chain(goban,intersection))
     # Sort the territory according to the coordinates of the first intersections
@@ -601,7 +601,7 @@ def play(goban: list, intersection: 'tuple[str,int]', stone: str) -> list:
     adjacents = obtain_adjacent_intersections(intersection, obtain_last_intersection(goban))
     # Filters the adjacent intersections which contain an opponent stone.
     oponent_adjacents = list(filter(lambda adjacent: not equal_stones(obtain_stone(goban, adjacent),stone)\
-                                    and is_stone_player(obtain_stone(goban,adjacent)),adjacents))
+                                    and is_player_stone(obtain_stone(goban,adjacent)),adjacents))
     # Removes opponent chains without liberties
     for adjacent in oponent_adjacents:
         adjacent_chain = obtain_chain(goban, adjacent)
@@ -698,7 +698,7 @@ def is_play_legal(goban: list, intersection: 'tuple[str,int]', stone: str, prev_
     """
     # Argument Validation. If they're invalid the play is illegal.
     if not is_valid_intersection(goban, intersection) or \
-    is_stone_player(obtain_stone(goban, intersection)):
+    is_player_stone(obtain_stone(goban, intersection)):
         return False
 
     copy_goban = create_copy_goban(goban)
