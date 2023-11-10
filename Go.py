@@ -281,7 +281,7 @@ def create_empty_goban(n: int) -> list:
     """
     # Argument Validation
     if not isinstance(n,int) or n not in {9, 13, 19}:
-        raise ValueError('create_empty_goban: invalid arguments')
+        raise ValueError('create_empty_goban: invalid argument')
     return [[create_neutral_stone() for _ in range(n)] for _ in range(n)]
 
 def create_goban(n: int, white_intersections: 'tuple[tuple[str,int], ...]', black_intersections: 'tuple[tuple[str,int], ...]') -> list:
