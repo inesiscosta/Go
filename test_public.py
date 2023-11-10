@@ -3,7 +3,7 @@ import pytest
 from Go import *
 import sys
 
-class TestPublicIntersecao:
+class TestPublicIntersection:
 
     def test_1(self):
         with pytest.raises(ValueError) as excinfo:
@@ -27,7 +27,7 @@ class TestPublicIntersecao:
         tup = (create_intersection('A',1), create_intersection('A',3), create_intersection('B',1), create_intersection('B',2))
         assert ('A1', 'B1', 'B2', 'A3') == tuple(intersection_to_str(i) for i in sort_intersections(tup))
         
-class TestPublicPedra:
+class TestPublicStone:
 
     def test_1(self):
         assert  is_stone(create_white_stone())
@@ -169,14 +169,14 @@ class TestPublicGoban:
    A B C D E F G H I"""
    
    
-class TestPublicCalculapoints:
+class TestPublicCalculatepoints:
     def test_1(self):
         white_intersections1 = tuple(str_to_intersection(i) for i in ('C1', 'C2', 'C3', 'D2', 'D3', 'D4', 'A3', 'B3'))
         black_intersections1 = tuple(str_to_intersection(i) for i in ('E4', 'E5', 'F4', 'F5', 'G6', 'G7'))
         goban = create_goban(9, white_intersections1, black_intersections1)
         assert calculate_points(goban) == (12, 6)
         
-class TestPublicEhplayLegal:
+class TestPublicIsPlayLegal:
     def test_1(self):
         white_intersections1 = tuple(str_to_intersection(i) for i in ('C1', 'C2', 'C3', 'D2', 'D3', 'D4', 'A3', 'B3'))
         black_intersections1 = tuple(str_to_intersection(i) for i in ('A1', 'A2', 'B1', 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'))
@@ -232,7 +232,7 @@ class TestPublicEhplayLegal:
         play(goban, create_intersection('B', 2), black)   
         assert not is_play_legal(goban, create_intersection('B', 2), white, g_ko)
    
-class TestPublicTurnoJogador:
+class TestPublicPlayerTurn:
     def test_1(self):
         white_intersections1 = tuple(str_to_intersection(i) for i in ('C1', 'C2', 'C3', 'D2', 'D3', 'D4', 'A3', 'B3'))
         black_intersections1 = tuple(str_to_intersection(i) for i in ('A1', 'A2', 'B1', 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'))
@@ -497,7 +497,7 @@ Black (X) has 28 points
         assert offline_go(9, white_intersections1, black_intersections1, 'E5\nF5\nE5\nP\nP\n') == (True, ref)
         
 
-# AUXILIAR CODE NECESSARY TO REPLACE STANDARD INPUT 
+# Auxiliary Code Necessary to Replace Standard Input 
 class ReplaceStdIn:
     def __init__(self, input_handle):
         self.input = input_handle.split('\n')
