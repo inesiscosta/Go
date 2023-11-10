@@ -680,7 +680,7 @@ def calculate_points(goban: list) -> 'tuple[int, int]':
 
     return (white_territory + white_stones, black_territory + black_stones)
 
-def is_play_legal(goban: list, intersection: 'tuple[str,int]', stone: str, prev_goban: list) -> bool:
+def is_legal_play(goban: list, intersection: 'tuple[str,int]', stone: str, prev_goban: list) -> bool:
     """
     Verifies if a play is legal.
 
@@ -740,7 +740,7 @@ def player_turn(goban: list, stone: str, prev_goban: list) -> bool:
                 # Converts the player's input into an intersection.
                 intersection = str_to_intersection(move)
                 # Makes the play if the play is legal.
-                if is_play_legal(goban, intersection, stone, prev_goban):
+                if is_legal_play(goban, intersection, stone, prev_goban):
                     goban = play(goban, intersection, stone)
                     valid_turn = True
                 else:
