@@ -242,7 +242,7 @@ class TestExtraIsStone:
     def test_8(self):
         assert is_player_stone((create_white_stone()))
 
-class TestMarcosstoneParaStr:
+class TestExtraStoneToStr:
     def test_1(self):
         assert stone_to_str(create_white_stone()) == "O"
     
@@ -252,7 +252,7 @@ class TestMarcosstoneParaStr:
     def test_3(self):
         assert stone_to_str(create_neutral_stone()) == "."
 
-class TestMarcosstonesIguais:
+class TestExtraEqualStones:
     def test_1(self):
         assert equal_stones(create_white_stone(),create_white_stone())
     
@@ -323,17 +323,17 @@ class TestExtraCreateGoban:
     def test_7(self):
         with pytest.raises(ValueError) as excinfo:
             create_empty_goban(None)
-        assert str(excinfo.value) == "create_empty_goban: invalid arguments"
+        assert str(excinfo.value) == "create_empty_goban: invalid argument"
     
     def test_8(self):
         with pytest.raises(ValueError) as excinfo:
             create_empty_goban("A")
-        assert str(excinfo.value) == "create_empty_goban: invalid arguments"
+        assert str(excinfo.value) == "create_empty_goban: invalid argument"
     
     def test_9(self):
         with pytest.raises(ValueError) as excinfo:
             create_empty_goban(3)
-        assert str(excinfo.value) == "create_empty_goban: invalid arguments"
+        assert str(excinfo.value) == "create_empty_goban: invalid argument"
 
     def test_10(self):
         white_intersections = ("A13",)
