@@ -40,7 +40,7 @@ class TestPublicStone:
         assert stone_to_str(white), stone_to_str(black) == ('O', 'X')
         
     def test_4(self):
-        assert not is_stone_player(create_neutral_stone())
+        assert not is_player_stone(create_neutral_stone())
         
 class TestPublicGoban:
     def test_1(self):
