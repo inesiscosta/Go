@@ -183,7 +183,7 @@ class TestPublicIsPlayLegal:
         goban = create_goban(9, white_intersections1, black_intersections1)
         prev_goban = create_empty_goban(9)
         white, black = create_white_stone(), create_black_stone()
-        assert not is_play_legal(goban, create_intersection('B', 2), black, prev_goban)
+        assert not is_legal_play(goban, create_intersection('B', 2), black, prev_goban)
         
     def test_2(self):
         white_intersections1 = tuple(str_to_intersection(i) for i in ('C1', 'C2', 'C3', 'D2', 'D3', 'D4', 'A3', 'B3'))
@@ -191,7 +191,7 @@ class TestPublicIsPlayLegal:
         goban = create_goban(9, white_intersections1, black_intersections1)
         prev_goban = create_empty_goban(9)
         white, black = create_white_stone(), create_black_stone()
-        assert is_play_legal(goban, create_intersection('B', 2), white, prev_goban)
+        assert is_legal_play(goban, create_intersection('B', 2), white, prev_goban)
 
     def test_3(self):
         white_intersections1 = tuple(str_to_intersection(i) for i in ('C1', 'C2', 'C3', 'D2', 'D3', 'D4', 'A3', 'B3'))
@@ -211,8 +211,8 @@ class TestPublicIsPlayLegal:
  2 X . O O . . . . .  2
  1 X X O . . . . . .  1
    A B C D E F G H I"""
-        assert (not is_play_legal(goban, create_intersection('B', 2), black, prev_goban)) \
-            and is_play_legal(goban, create_intersection('B', 2), white, prev_goban) \
+        assert (not is_legal_play(goban, create_intersection('B', 2), black, prev_goban)) \
+            and is_legal_play(goban, create_intersection('B', 2), white, prev_goban) \
                 and ref ==  goban_to_str(goban)
 
     def test_4(self):
@@ -221,7 +221,7 @@ class TestPublicIsPlayLegal:
         white, black = create_white_stone(), create_black_stone()
         goban = create_goban(9, white_intersections1, black_intersections1)
         g_ko = create_copy_goban(goban)
-        assert is_play_legal(goban, create_intersection('B', 2), black, g_ko)
+        assert is_legal_play(goban, create_intersection('B', 2), black, g_ko)
 
     def test_5(self):
         white_intersections1 = tuple(str_to_intersection(i) for i in ('A2','B1','B3','C2'))
@@ -230,7 +230,7 @@ class TestPublicIsPlayLegal:
         goban = create_goban(9, white_intersections1, black_intersections1)
         g_ko = create_copy_goban(goban)
         play(goban, create_intersection('B', 2), black)   
-        assert not is_play_legal(goban, create_intersection('B', 2), white, g_ko)
+        assert not is_legal_play(goban, create_intersection('B', 2), white, g_ko)
    
 class TestPublicPlayerTurn:
     def test_1(self):
