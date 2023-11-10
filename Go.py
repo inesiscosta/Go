@@ -304,7 +304,7 @@ def create_goban(n: int, white_intersections: 'tuple[tuple[str,int], ...]', blac
     try:
         create_empty_goban(n)
     except ValueError as e:
-        raise ValueError("create_goban: invalid argument") from e # Re-raises ValueError
+        raise ValueError("create_goban: invalid arguments") from e # Re-raises ValueError
     if not isinstance(white_intersections, tuple) or not isinstance(black_intersections, tuple):
         raise ValueError('create_goban: invalid arguments')
     if len(set(white_intersections)) != len(white_intersections) or len(set(black_intersections)) != len(black_intersections): # Searches for duplicates
