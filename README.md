@@ -1,7 +1,7 @@
 # Go
 The game Go as a Python text-based game.
 
-This was the 2nd Project for my Fundamentals of Programming class, mainly meant to test the use of Abstract Data Types. The `.pdf` file contains the instructions provided by the teacher. The included Python Tests (public and private) were also provided by the teacher.
+Fundamentals of Programming class project, mainly meant to test the use of Abstract Data Types. The `.pdf` file contains the instructions provided by the teacher, who also supplied the included pytests (both public and private).
 
 ## How to Play
 
@@ -31,7 +31,7 @@ This was the 2nd Project for my Fundamentals of Programming class, mainly meant 
 
 5. **Placing Stones**:
 - Players take turns to place stones on the board.
-- Use coordinates to specify where to place your stone (e.g., `D4`).
+- Use coordinates to specify where to place your stone (e.g. `D4`).
 
 7. **Objective**: Capture the opponent's stones by surrounding them.
 
