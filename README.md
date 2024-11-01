@@ -1,7 +1,7 @@
 # Go
-The game Go as a Python text-based game.
+Go is an abstract strategy board game for two players, where the objective is to control more territory than your opponent. This repository contains the code to play Go as a text-based game.
 
-Fundamentals of Programming class project, mainly meant to test the use of Abstract Data Types. The `.pdf` file contains the instructions provided by the teacher, who also supplied the included pytests (both public and private).
+The code is written in Python as part of a project for my Fundamentals of Programming class. The primary goal of this project was to practice using Abstract Data Types. The included `.pdf` file contains the instructions provided by the teacher, who also supplied the accompanying pytests (both public and private).
 
 ## How to Play
 
@@ -14,7 +14,7 @@ Fundamentals of Programming class project, mainly meant to test the use of Abstr
 
 3. **Game Board**: The game board is a 9x9, 13x13, or 19x19 grid. The columns are labeled with letters, and the rows are numbered. Here is an example of a 9x9 grid:
     <pre>
-        A B C D E F G H I  
+       A B C D E F G H I  
      9 . . . . . . . . .  9  
      8 . . . . . . . . .  8  
      7 . . . . . . . . .  7  
@@ -24,7 +24,7 @@ Fundamentals of Programming class project, mainly meant to test the use of Abstr
      3 . . O . . . . . .  3  
      2 . . O . . X . . .  2  
      1 . . . . . . . . .  1  
-        A B C D E F G H I</pre>
+       A B C D E F G H I</pre>
 - `X` represents a black stone.
 - `O` represents a white stone.
 - `.` represents an empty intersection.  
