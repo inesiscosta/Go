@@ -5,9 +5,9 @@ The code is written in Python as part of a project for my Fundamentals of Progra
 
 ## How to Play
 
-1. **Setup**: Ensure you have Python installed on your system.
+1. **Setup**: Ensure you have Python 3 installed on your system.
 
-2. **Run the Game**: Execute the following command in your terminal:
+2. **Run the Game**: Navigate the the root directory of this repository and execute the following command in your terminal:
     ```sh
     $ python PlayGo.py
     ```
