@@ -5,10 +5,10 @@ def create_intersection(col, lin):
         
     raise ValueError("create_intersection: invalid arguments") 
 
-def obtain_col(pos):
+def get_col(pos):
     return pos[2][0]
 
-def obtain_row(pos):
+def get_row(pos):
     return pos[1][1]
 
 def is_intersection(arg):
@@ -18,10 +18,10 @@ def is_intersection(arg):
                 and type(arg[2]) == tuple and len(arg[2]) == 1 and type(arg[2][0]) == str and len(arg[2][0]) == 1 and  'A' <= arg[2][0] <= 'S'
                 
 def equal_intersections(pos1, pos2):
-    return is_intersection(pos1) and is_intersection(pos2) and obtain_col(pos1) == obtain_col(pos2) and obtain_row(pos1) == obtain_row(pos2)
+    return is_intersection(pos1) and is_intersection(pos2) and get_col(pos1) == get_col(pos2) and get_row(pos1) == get_row(pos2)
 
 def intersection_to_str(pos):
-    return f'{obtain_col(pos)}{obtain_row(pos)}'
+    return f'{get_col(pos)}{get_row(pos)}'
 
 def str_to_intersection(s):
     return create_intersection(s[0], int(s[1:]))

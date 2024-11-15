@@ -42,9 +42,9 @@ def create_intersection(column:str,row:int) -> 'tuple[str,int]':
     return (column, row)
 
 # Selectors
-def obtain_col(intersection: 'tuple[str,int]') -> str:
+def get_col(intersection: 'tuple[str,int]') -> str:
     """
-    Obtains the intersection's column.
+    gets the intersection's column.
 
     :param intersection: An intersection.
     :type intersection: tuple(str,int)
@@ -54,9 +54,9 @@ def obtain_col(intersection: 'tuple[str,int]') -> str:
     """
     return intersection[0]
 
-def obtain_row(intersection: 'tuple[str,int]') -> int:
+def get_row(intersection: 'tuple[str,int]') -> int:
     """
-    Obtains the intersection's row.
+    gets the intersection's row.
 
     :param intersection: Any valid intersection.
     :type intersection: tuple(str,int)
@@ -78,7 +78,7 @@ def is_intersection(arg: any) -> bool:
     :rtype: bool
     """
     return isinstance(arg, tuple) and len(arg) == 2 and \
-    is_valid_intersection_arguments(obtain_col(arg), obtain_row(arg))
+    is_valid_intersection_arguments(get_col(arg), get_row(arg))
 
 # Tests
 def equal_intersections(intersection1:any, intersection2:any) -> bool:
@@ -94,8 +94,8 @@ def equal_intersections(intersection1:any, intersection2:any) -> bool:
     :rtype: bool
     """
     return is_intersection(intersection1) and is_intersection(intersection2)\
-    and obtain_col(intersection1) == obtain_col(intersection2)\
-    and obtain_row(intersection1) == obtain_row(intersection2)
+    and get_col(intersection1) == get_col(intersection2)\
+    and get_row(intersection1) == get_row(intersection2)
 
 # Transformers (mutators)
 def intersection_to_str(intersection: 'tuple[str,int]') -> str:
@@ -108,7 +108,7 @@ def intersection_to_str(intersection: 'tuple[str,int]') -> str:
     :return: A string representing the intersection. (External Representation of an Intersection)
     :rtype: str
     """
-    return obtain_col(intersection) + str(obtain_row(intersection))
+    return get_col(intersection) + str(get_row(intersection))
 
 def str_to_intersection(string: str) -> 'tuple[str,int]':
     """
@@ -123,9 +123,9 @@ def str_to_intersection(string: str) -> 'tuple[str,int]':
     return create_intersection(string[0], int(string[1:]))
 
 # High-Level Functions
-def obtain_adjacent_intersections(intersection: 'tuple[str,int]', last_intersection: 'tuple[str,int]') -> 'tuple[tuple[str,int], ...]':
+def get_adjacent_intersections(intersection: 'tuple[str,int]', last_intersection: 'tuple[str,int]') -> 'tuple[tuple[str,int], ...]':
     """
-    Obtains the intersections adjacent to an intersection given the board's upmost intersection.
+    gets the intersections adjacent to an intersection given the board's upmost intersection.
 
     :param intersection: Any intersection on the board.
     :type intersection: tuple[str,int]
@@ -136,8 +136,8 @@ def obtain_adjacent_intersections(intersection: 'tuple[str,int]', last_intersect
     sorted by the reading order of the Go board.
     :rtype: tuple(tuple(str,int), ...)
     """
-    col, row = obtain_col(intersection), obtain_row(intersection)
-    max_col, max_row = obtain_col(last_intersection), obtain_row(last_intersection)
+    col, row = get_col(intersection), get_row(intersection)
+    max_col, max_row = get_col(last_intersection), get_row(last_intersection)
     adjacents = []
     for x, y in [(0, -1), (-1, 0), (1, 0), (0, 1)]:
         if "A" <= chr(ord(col) + x) <= max_col and 1 <= row + y <= max_row:
@@ -155,7 +155,7 @@ def sort_intersections(tuple_intersections: 'tuple[tuple[str,int], ...]') -> 'tu
     :rtype: tuple(tuple(str,int), ...)
     """
     return tuple(sorted(tuple_intersections,key=lambda intersection:
-    (obtain_row(intersection), obtain_col(intersection))))
+    (get_row(intersection), get_col(intersection))))
 
 # Stone ADT
 # Constructors
@@ -352,9 +352,9 @@ def create_copy_goban(goban: list) -> list:
     return [[stone for stone in row] for row in goban] # Deep Copy
 
 # Selectors
-def obtain_last_intersection(goban: list) -> 'tuple[str,int]':
+def get_last_intersection(goban: list) -> 'tuple[str,int]':
     """
-    Obtains the intersection in the top right corner of the goban.
+    gets the intersection in the top right corner of the goban.
 
     :param goban: Any goban.
     :type goban: list
@@ -364,9 +364,9 @@ def obtain_last_intersection(goban: list) -> 'tuple[str,int]':
     """
     return create_intersection(chr(ord("A") + len(goban) - 1), len(goban))
 
-def obtain_stone(goban: list, intersection: 'tuple[str,int]') -> str:
+def get_stone(goban: list, intersection: 'tuple[str,int]') -> str:
     """
-    Obtains the stone at the intersection specified.
+    gets the stone at the intersection specified.
 
     :param goban: A goban.
     :type goban: list
@@ -376,11 +376,11 @@ def obtain_stone(goban: list, intersection: 'tuple[str,int]') -> str:
     :return: The stone found in the given intersection.
     :rtype: str
     """
-    return goban[obtain_row(intersection) - 1][ord(obtain_col(intersection)) - ord("A")]
+    return goban[get_row(intersection) - 1][ord(get_col(intersection)) - ord("A")]
 
-def obtain_chain(goban: list, intersection: 'tuple[str,int]'):
+def get_chain(goban: list, intersection: 'tuple[str,int]'):
     """
-    Obtains a chain of intersections connected to the specified intersection.
+    gets a chain of intersections connected to the specified intersection.
 
     :param goban: A goban.
     :type goban: list
@@ -394,9 +394,9 @@ def obtain_chain(goban: list, intersection: 'tuple[str,int]'):
     def _find_chain(goban, intersection, visited):
         visited.add(intersection)
         chain = [intersection]
-        for adj in obtain_adjacent_intersections(intersection, obtain_last_intersection(goban)):
-            if adj not in visited and equal_stones(obtain_stone(goban, adj),
-            obtain_stone(goban, intersection)):
+        for adj in get_adjacent_intersections(intersection, get_last_intersection(goban)):
+            if adj not in visited and equal_stones(get_stone(goban, adj),
+            get_stone(goban, intersection)):
                 chain.extend(_find_chain(goban, adj, visited))
         return chain
     return sort_intersections(tuple(_find_chain(goban, intersection, set())))
@@ -416,7 +416,7 @@ def place_stone(goban: list, intersection: 'tuple[str,int]', stone: str) -> list
     :return: A modified goban board with the stone placed.
     :rtype: list
     """
-    goban[obtain_row(intersection)-1][ord(obtain_col(intersection))-ord("A")] = stone
+    goban[get_row(intersection)-1][ord(get_col(intersection))-ord("A")] = stone
     return goban
 
 def remove_stone(goban: list, intersection: 'tuple[str,int]') -> list:
@@ -481,8 +481,8 @@ def is_valid_intersection(goban: list, intersection: 'tuple[str,int]') -> bool:
     :rtype: bool
     """
     return is_goban(goban) and is_intersection(intersection) and \
-    obtain_col(intersection) <= obtain_col(obtain_last_intersection(goban)) and \
-    obtain_row(intersection) <= obtain_row(obtain_last_intersection(goban))
+    get_col(intersection) <= get_col(get_last_intersection(goban)) and \
+    get_row(intersection) <= get_row(get_last_intersection(goban))
 
 # Test
 def equal_gobans(goban1: list, goban2: list) -> bool:
@@ -499,13 +499,13 @@ def equal_gobans(goban1: list, goban2: list) -> bool:
     """
     if not is_goban(goban1) or not is_goban(goban2):
         return False
-    last_intersection = obtain_last_intersection(goban1)
-    if last_intersection != obtain_last_intersection(goban2):
+    last_intersection = get_last_intersection(goban1)
+    if last_intersection != get_last_intersection(goban2):
         return False
-    dim = obtain_row(last_intersection)
+    dim = get_row(last_intersection)
     return all(equal_stones(
-    obtain_stone(goban1, create_intersection(chr(col + ord("A")), row + 1)),
-    obtain_stone(goban2, create_intersection(chr(col + ord("A")), row + 1)))
+    get_stone(goban1, create_intersection(chr(col + ord("A")), row + 1)),
+    get_stone(goban2, create_intersection(chr(col + ord("A")), row + 1)))
     for row in range(dim) for col in range(dim))
 
 # Transformer (mutator)
@@ -519,20 +519,20 @@ def goban_to_str(goban: list) -> str:
     :return: A string that represents the goban.
     :rtype: str
     """
-    dim = obtain_row(obtain_last_intersection(goban))
+    dim = get_row(get_last_intersection(goban))
     columns = [chr(i) for i in range(ord('A'), ord('A') + dim)]
     string = '   ' + ' '.join(columns[:dim]) + '\n'
     for i in range(dim - 1, -1, -1):
         string += f'{i+1:2} ' + ' '\
-        .join(stone_to_str(obtain_stone(goban, create_intersection(columns[col],i+1)))\
+        .join(stone_to_str(get_stone(goban, create_intersection(columns[col],i+1)))\
         for col in range(dim)) + f' {i+1:2}\n'
     string += '   ' + ' '.join(columns[:dim])
     return string
 
 # High-Level Functions
-def obtain_territories(goban: list) -> 'tuple[tuple[tuple[str,int], ...], ...]':
+def get_territories(goban: list) -> 'tuple[tuple[tuple[str,int], ...], ...]':
     """
-    Obtains the territories in a goban.
+    gets the territories in a goban.
 
     :param goban: A goban.
     :type goban: list
@@ -543,20 +543,20 @@ def obtain_territories(goban: list) -> 'tuple[tuple[tuple[str,int], ...], ...]':
     """
     territories = []
     visited = set()
-    dim = obtain_row(obtain_last_intersection(goban))
+    dim = get_row(get_last_intersection(goban))
     for row in range(dim):
         for col in range(dim):
             intersection = create_intersection(chr(col + ord("A")), row + 1)
             if intersection not in visited and \
-            not is_player_stone(obtain_stone(goban, intersection)):
-                chain = obtain_chain(goban, intersection)
+            not is_player_stone(get_stone(goban, intersection)):
+                chain = get_chain(goban, intersection)
                 territories.append(chain)
                 visited.update(chain)
     return tuple(sort_intersections(tuple(territory)) for territory in territories)
 
-def obtain_different_adjacents(goban: list, tuple_intersections: 'tuple[tuple[str,int], ...]') -> 'tuple[tuple[str,int], ...]':
+def get_different_adjacents(goban: list, tuple_intersections: 'tuple[tuple[str,int], ...]') -> 'tuple[tuple[str,int], ...]':
     """
-    Obtains the adjacents intersections with different stone types.
+    gets the adjacents intersections with different stone types.
 
     :param goban: A goban
     :type goban: list
@@ -570,10 +570,10 @@ def obtain_different_adjacents(goban: list, tuple_intersections: 'tuple[tuple[st
     """
     return sort_intersections(tuple({
     adjacent for intersection in tuple_intersections \
-    for adjacent in obtain_adjacent_intersections(intersection, obtain_last_intersection(goban)) \
+    for adjacent in get_adjacent_intersections(intersection, get_last_intersection(goban)) \
     if adjacent not in tuple_intersections and \
-    is_player_stone(obtain_stone(goban, adjacent)) != \
-    is_player_stone(obtain_stone(goban, intersection))}))
+    is_player_stone(get_stone(goban, adjacent)) != \
+    is_player_stone(get_stone(goban, intersection))}))
 
 def play(goban: list, intersection: 'tuple[str,int]', stone: str) -> list:
     """
@@ -587,17 +587,17 @@ def play(goban: list, intersection: 'tuple[str,int]', stone: str) -> list:
     """
     goban = place_stone(goban, intersection, stone)
 
-    for adjacent in obtain_adjacent_intersections(
-    intersection, obtain_last_intersection(goban)):
-        if is_player_stone(obtain_stone(goban, adjacent)) and \
-        not equal_stones(obtain_stone(goban, adjacent), stone) and \
-        not obtain_different_adjacents(goban, obtain_chain(goban, adjacent)):
-            goban = remove_chain(goban, obtain_chain(goban, adjacent))
+    for adjacent in get_adjacent_intersections(
+    intersection, get_last_intersection(goban)):
+        if is_player_stone(get_stone(goban, adjacent)) and \
+        not equal_stones(get_stone(goban, adjacent), stone) and \
+        not get_different_adjacents(goban, get_chain(goban, adjacent)):
+            goban = remove_chain(goban, get_chain(goban, adjacent))
     return goban
 
-def obtain_num_player_stones(goban: list) -> tuple:
+def get_num_player_stones(goban: list) -> tuple:
     """
-    Obtains the number of white and black stones in the Goban.
+    gets the number of white and black stones in the Goban.
 
     :param goban: A goban.
     :type goban: list
@@ -605,11 +605,11 @@ def obtain_num_player_stones(goban: list) -> tuple:
     :return: A tuple containing the number of white and black stones, respectively.
     :rtype: tuple
     """
-    dim = obtain_row(obtain_last_intersection(goban))
+    dim = get_row(get_last_intersection(goban))
     columns = [chr(i) for i in range(ord('A'), ord('A') + dim)]
-    white = sum(is_white_stone(obtain_stone(goban, create_intersection(col, row))) \
+    white = sum(is_white_stone(get_stone(goban, create_intersection(col, row))) \
     for col in columns[:dim] for row in range(1, dim + 1))
-    black = sum(is_black_stone(obtain_stone(goban, create_intersection(col, row))) \
+    black = sum(is_black_stone(get_stone(goban, create_intersection(col, row))) \
     for col in columns[:dim] for row in range(1, dim + 1))
     return (white, black)
 
@@ -623,16 +623,16 @@ def calculate_points(goban: list) -> 'tuple[int, int]':
     :return: A tuple containing the number of points of the white and black player, respectively.
     :rtype: tuple
     """
-    territories = obtain_territories(goban)
-    points = obtain_num_player_stones(goban)
+    territories = get_territories(goban)
+    points = get_num_player_stones(goban)
     white_territory = sum(len(territory) for territory in territories \
-    if obtain_different_adjacents(goban, territory) and \
-    all(is_white_stone(obtain_stone(goban, intersection)) \
-    for intersection in obtain_different_adjacents(goban, territory)))
+    if get_different_adjacents(goban, territory) and \
+    all(is_white_stone(get_stone(goban, intersection)) \
+    for intersection in get_different_adjacents(goban, territory)))
     black_territory = sum(len(territory) for territory in territories \
-    if obtain_different_adjacents(goban, territory) and \
-    all(is_black_stone(obtain_stone(goban, intersection)) \
-    for intersection in obtain_different_adjacents(goban, territory)))
+    if get_different_adjacents(goban, territory) and \
+    all(is_black_stone(get_stone(goban, intersection)) \
+    for intersection in get_different_adjacents(goban, territory)))
     return (points[0] + white_territory, points[1] + black_territory)
 
 def is_legal_play(goban: list, intersection: 'tuple[str,int]', stone: str, prev_goban: list) -> bool:
@@ -653,7 +653,7 @@ def is_legal_play(goban: list, intersection: 'tuple[str,int]', stone: str, prev_
     """
     # Argument Validation. If they're invalid the play is illegal.
     if not is_valid_intersection(goban, intersection) or \
-    is_player_stone(obtain_stone(goban, intersection)):
+    is_player_stone(get_stone(goban, intersection)):
         return False
     copy_goban = create_copy_goban(goban)
     play(copy_goban, intersection, stone)
@@ -661,7 +661,7 @@ def is_legal_play(goban: list, intersection: 'tuple[str,int]', stone: str, prev_
     if equal_gobans(copy_goban, prev_goban):
         return False
     # Checks the Suicide Rule
-    return obtain_different_adjacents(copy_goban,obtain_chain(copy_goban,intersection))
+    return get_different_adjacents(copy_goban,get_chain(copy_goban,intersection))
 
 def player_turn(goban: list, stone: str, prev_goban: list) -> bool:
     """

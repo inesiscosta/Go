@@ -29,7 +29,7 @@ class TestPublicIntersection:
 
     def test_5(self):
         intersection1 = create_intersection('A', 2)
-        assert ('A1', 'B2', 'A3') == tuple(intersection_to_str(i) for i in obtain_adjacent_intersections(intersection1, create_intersection('S',19)))
+        assert ('A1', 'B2', 'A3') == tuple(intersection_to_str(i) for i in get_adjacent_intersections(intersection1, create_intersection('S',19)))
         
     def test_6(self):
         tup = (create_intersection('A',1), create_intersection('A',3), create_intersection('B',1), create_intersection('B',2))
@@ -62,7 +62,7 @@ class TestPublicGoban:
     def test_3(self):
         goban = create_empty_goban(9)
         intersection1 = create_intersection('C',8)
-        assert stone_to_str(obtain_stone(goban,intersection1)) == '.'
+        assert stone_to_str(get_stone(goban,intersection1)) == '.'
         
     def test_4(self):
         goban = create_empty_goban(9)
@@ -92,7 +92,7 @@ class TestPublicGoban:
         black_intersections1 = 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'
         for i in white_intersections1: place_stone(goban, str_to_intersection(i), white)
         for i in black_intersections1: place_stone(goban, str_to_intersection(i), black)
-        cad = obtain_chain(goban, create_intersection('F',5))
+        cad = get_chain(goban, create_intersection('F',5))
         assert  tuple(intersection_to_str(i) for i in cad) == ('E4', 'F4', 'E5', 'F5')
 
     def test_6(self):
@@ -102,8 +102,8 @@ class TestPublicGoban:
         black_intersections1 = 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'
         for i in white_intersections1: place_stone(goban, str_to_intersection(i), white)
         for i in black_intersections1: place_stone(goban, str_to_intersection(i), black)
-        chain = obtain_chain(goban, create_intersection('F',5))
-        liberties = obtain_different_adjacents(goban, chain)
+        chain = get_chain(goban, create_intersection('F',5))
+        liberties = get_different_adjacents(goban, chain)
         assert tuple(intersection_to_str(i) for i in liberties) == ('E3', 'F3', 'G4', 'D5', 'G5', 'E6', 'F6')
         
     def test_7(self):
@@ -113,7 +113,7 @@ class TestPublicGoban:
         black_intersections1 = 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'
         for i in white_intersections1: place_stone(goban, str_to_intersection(i), white)
         for i in black_intersections1: place_stone(goban, str_to_intersection(i), black)
-        terr = obtain_territories(goban)
+        terr = get_territories(goban)
         assert tuple(intersection_to_str(i) for i in terr[0]) == ('A1', 'B1', 'A2', 'B2')
 
     def test_8(self):
@@ -123,8 +123,8 @@ class TestPublicGoban:
         black_intersections1 = 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'
         for i in white_intersections1: place_stone(goban, str_to_intersection(i), b)
         for i in black_intersections1: place_stone(goban, str_to_intersection(i), p)
-        terr = obtain_territories(goban)
-        border = obtain_different_adjacents(goban, terr[0])
+        terr = get_territories(goban)
+        border = get_different_adjacents(goban, terr[0])
         assert  tuple(intersection_to_str(i) for i in border) == ('C1', 'C2', 'A3', 'B3')
 
     def test_9(self):
@@ -134,7 +134,7 @@ class TestPublicGoban:
         black_intersections1 = 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'
         for i in white_intersections1: place_stone(goban, str_to_intersection(i), b)
         for i in black_intersections1: place_stone(goban, str_to_intersection(i), p)
-        assert obtain_num_player_stones(goban) == (8, 6)
+        assert get_num_player_stones(goban) == (8, 6)
         
     def test_10(self):
         white_intersections1 = tuple(str_to_intersection(i) \

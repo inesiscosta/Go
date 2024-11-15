@@ -75,12 +75,12 @@ class TestPrivateIntersectionCreate:
 class TestPrivateIntersectionColumn:
     def test_1(self):
         p = create_intersection('C', 4)
-        assert obtain_col(p) == 'C'
+        assert get_col(p) == 'C'
 
 class TestPrivateIntersectionLinha:
     def test_1(self):
         p = create_intersection('G', 18)
-        assert obtain_row(p) == 18
+        assert get_row(p) == 18
 
 class TestPrivateIntersectionIsInter:
     def test_1(self):
@@ -138,48 +138,48 @@ class TestPrivateIntersectionAdjacentInter:
     def test_1(self):
         c = create_intersection('R', 8)
         l = create_intersection('S', 19)
-        t_adj = obtain_adjacent_intersections(c, l)
+        t_adj = get_adjacent_intersections(c, l)
         assert isinstance(t_adj, tuple) and all((is_intersection(a) for a in t_adj))
 
     def test_2(self):
         c = create_intersection('R', 8)
         l = create_intersection('S', 19)
-        t_adj = obtain_adjacent_intersections(c, l)
+        t_adj = get_adjacent_intersections(c, l)
         ref = 'R7, Q8, S8, R9'
         assert ', '.join((intersection_to_str(a) for a in t_adj)) == ref
 
     def test_3(self):
         c = create_intersection('A', 1)
         l = create_intersection('S', 19)
-        t_adj = obtain_adjacent_intersections(c, l)
+        t_adj = get_adjacent_intersections(c, l)
         ref = 'B1, A2'
         assert ', '.join((intersection_to_str(a) for a in t_adj)) == ref
 
     def test_4(self):
         c = create_intersection('A', 7)
         l = create_intersection('I', 9)
-        t_adj = obtain_adjacent_intersections(c, l)
+        t_adj = get_adjacent_intersections(c, l)
         ref = 'A6, B7, A8'
         assert ', '.join((intersection_to_str(a) for a in t_adj)) == ref
         
     def test_5(self):
         c = create_intersection('S', 13)
         l = create_intersection('S', 19)
-        t_adj = obtain_adjacent_intersections(c, l)
+        t_adj = get_adjacent_intersections(c, l)
         ref = 'S12, R13, S14'
         assert ', '.join((intersection_to_str(a) for a in t_adj)) == ref
         
     def test_6(self):
         c = create_intersection('C', 1)
         l = create_intersection('S', 19)
-        t_adj = obtain_adjacent_intersections(c, l)
+        t_adj = get_adjacent_intersections(c, l)
         ref = 'B1, D1, C2'
         assert ', '.join((intersection_to_str(a) for a in t_adj)) == ref
         
     def test_7(self):
         c = create_intersection('S', 19)
         l = create_intersection('S', 19) 
-        t_adj = obtain_adjacent_intersections(c, l)
+        t_adj = get_adjacent_intersections(c, l)
         ref = 'S18, R19'
         assert ', '.join((intersection_to_str(a) for a in t_adj)) == ref
          
@@ -360,31 +360,31 @@ class TestPrivateGobanCreateCopy:
         c2 = create_copy_goban(c1)
         assert id(c1) != id(c2) and equal_gobans(c1, c2)
 
-class TestPrivateGobanObtainLastInter:
+class TestPrivateGobangetLastInter:
     def test_1(self):
         c = create_empty_goban(9)
-        assert obtain_last_intersection(c) == create_intersection('I',9)
+        assert get_last_intersection(c) == create_intersection('I',9)
         
     def test_2(self):
         c = create_empty_goban(19)
-        assert obtain_last_intersection(c) == create_intersection('S',19)
+        assert get_last_intersection(c) == create_intersection('S',19)
 
     def test_3(self):
         c = create_goban(13, (), ())
-        assert obtain_last_intersection(c) == create_intersection('M',13)
+        assert get_last_intersection(c) == create_intersection('M',13)
         
 
-class TestPrivateGobanObtainStone:
+class TestPrivateGobangetStone:
     def test_1(self):
         g = create_empty_goban(9)
-        s1 = obtain_stone(g, create_intersection('A',1))
-        s2 = obtain_stone(g, create_intersection('I',9))
+        s1 = get_stone(g, create_intersection('A',1))
+        s2 = get_stone(g, create_intersection('I',9))
         assert equal_stones(s1, s2) and equal_stones(s1, create_neutral_stone())
   
     def test_2(self):
         g = create_empty_goban(19)
-        s1 = obtain_stone(g, create_intersection('A',1))
-        s2 = obtain_stone(g, create_intersection('S',19))
+        s1 = get_stone(g, create_intersection('A',1))
+        s2 = get_stone(g, create_intersection('S',19))
         assert equal_stones(s1, s2) and equal_stones(s1, create_neutral_stone())
   
 
@@ -393,11 +393,11 @@ class TestPrivateGobanObtainStone:
         black_intersections = create_intersection('E',1), create_intersection('E',3), create_intersection('F',4)
         g = create_goban(13, white_intersections, black_intersections)
  
-        assert all(is_white_stone(obtain_stone(g, i)) for i in white_intersections) and \
-            all(is_black_stone(obtain_stone(g, i)) for i in black_intersections) and \
-                all((not is_player_stone(obtain_stone(g, create_intersection(L,N))) for L in 'LM' for N in range(1,14,2)))
+        assert all(is_white_stone(get_stone(g, i)) for i in white_intersections) and \
+            all(is_black_stone(get_stone(g, i)) for i in black_intersections) and \
+                all((not is_player_stone(get_stone(g, create_intersection(L,N))) for L in 'LM' for N in range(1,14,2)))
 
-class TestPrivateGobanObtainChain:
+class TestPrivateGobangetChain:
     def test_1(self):
         g = create_empty_goban(9)
         ref = 'A1, B1, C1, D1, E1, F1, G1, H1, I1, A2, B2, C2, D2, E2, F2, G2, H2, '\
@@ -405,53 +405,53 @@ class TestPrivateGobanObtainChain:
               'H4, I4, A5, B5, C5, D5, E5, F5, G5, H5, I5, A6, B6, C6, D6, E6, F6, '\
               'G6, H6, I6, A7, B7, C7, D7, E7, F7, G7, H7, I7, A8, B8, C8, D8, E8, '\
               'F8, G8, H8, I8, A9, B9, C9, D9, E9, F9, G9, H9, I9'
-        assert ref == ', '.join(intersection_to_str(i) for i in obtain_chain(g, create_intersection('D',5)))
+        assert ref == ', '.join(intersection_to_str(i) for i in get_chain(g, create_intersection('D',5)))
     def test_2(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9'
         black_intersections = 'D1', 'E2', 'E3', 'E4', 'E5', 'F6', 'F7', 'G5', 'G8', 'G9'
         g = create_goban(19, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         ref = 'G5'
-        assert ref ==  ', '.join(intersection_to_str(i) for i in obtain_chain(g, create_intersection('G',5)))
+        assert ref ==  ', '.join(intersection_to_str(i) for i in get_chain(g, create_intersection('G',5)))
 
     def test_3(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9'
         black_intersections = 'D1', 'E2', 'E3', 'E4', 'E5', 'F6', 'F7', 'G5', 'G8', 'G9'
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         ref = 'E2, E3, E4, E5'
-        assert ref ==  ', '.join(intersection_to_str(i) for i in obtain_chain(g, create_intersection('E',3)))
+        assert ref ==  ', '.join(intersection_to_str(i) for i in get_chain(g, create_intersection('E',3)))
         
     def test_4(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9'
         black_intersections = 'D1', 'E2', 'E3', 'E4', 'E5', 'F6', 'F7', 'G5', 'G8', 'G9'
         g = create_goban(13, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         ref = 'F6, F7'
-        assert ref ==  ', '.join(intersection_to_str(i) for i in obtain_chain(g, create_intersection('F',7)))
+        assert ref ==  ', '.join(intersection_to_str(i) for i in get_chain(g, create_intersection('F',7)))
         
     def test_5(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9'
         black_intersections = 'D1', 'E2', 'E3', 'E4', 'E5', 'F6', 'F7', 'G5', 'G8', 'G9'
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         ref = 'E1, F1, G1, H1, I1, F2, G2, H2, I2, F3, G3, H3, I3, F4, G4, H4, I4, F5, H5, I5, G6, H6, I6, G7, H7, I7, H8, I8, H9, I9'
-        assert ref ==  ', '.join(intersection_to_str(i) for i in obtain_chain(g, create_intersection('G',6)))
+        assert ref ==  ', '.join(intersection_to_str(i) for i in get_chain(g, create_intersection('G',6)))
         
     def test_6(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9'
         black_intersections = 'D1', 'E2', 'E3', 'E4', 'E5', 'F6', 'F7', 'G5', 'G8', 'G9'
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         ref = 'D2, D3, D4, D5, D6, E6, E7, E8, F8, F9'
-        assert ref ==  ', '.join(intersection_to_str(i) for i in obtain_chain(g, create_intersection('E',6)))
+        assert ref ==  ', '.join(intersection_to_str(i) for i in get_chain(g, create_intersection('E',6)))
         
 class TestPrivateGobanPlaceStone:
     def test_1(self):
         g1 = create_empty_goban(13)
         g2 = place_stone(g1, create_intersection('A',1), create_white_stone()) 
-        assert is_white_stone(obtain_stone(g1, create_intersection('A',1))) and id(g1) == id(g2)
+        assert is_white_stone(get_stone(g1, create_intersection('A',1))) and id(g1) == id(g2)
 
     def test_2(self):
         g = create_empty_goban(19)
         _ = place_stone(g, create_intersection('A',1), create_white_stone()) 
         _ = place_stone(g, create_intersection('A',1), create_black_stone()) 
-        assert is_black_stone(obtain_stone(g, create_intersection('A',1)))
+        assert is_black_stone(get_stone(g, create_intersection('A',1)))
         
     def test_3(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9'
@@ -460,7 +460,7 @@ class TestPrivateGobanPlaceStone:
         g2 = create_empty_goban(9)
         for i in white_intersections: place_stone(g2, str_to_intersection(i), create_white_stone())
         for i in black_intersections: place_stone(g2, str_to_intersection(i), create_black_stone())
-        assert all(equal_stones(obtain_stone(g1, str_to_intersection(i)),obtain_stone(g2, str_to_intersection(i))) for i in white_intersections + black_intersections)
+        assert all(equal_stones(get_stone(g1, str_to_intersection(i)),get_stone(g2, str_to_intersection(i))) for i in white_intersections + black_intersections)
 
 class TestPrivateGobanRemoveStone:
     def test_1(self):
@@ -469,14 +469,14 @@ class TestPrivateGobanRemoveStone:
         g1 = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         g2 = create_copy_goban(g1)
         g3 = remove_stone(g1, create_intersection('D',2))
-        assert is_white_stone(obtain_stone(g2, create_intersection('D',2))) and not is_player_stone(obtain_stone(g1, create_intersection('D',2))) and id(g1) == id(g3)
+        assert is_white_stone(get_stone(g2, create_intersection('D',2))) and not is_player_stone(get_stone(g1, create_intersection('D',2))) and id(g1) == id(g3)
 
     def test_2(self):
         g = create_empty_goban(13)
         _ = place_stone(g, create_intersection('A',1), create_black_stone()) 
         _ = place_stone(g, create_intersection('A',2), create_black_stone()) 
         _ = remove_stone(g, create_intersection('A',1)) 
-        assert not is_player_stone(obtain_stone(g, create_intersection('A',1))) and is_black_stone(obtain_stone(g, create_intersection('A',2)))
+        assert not is_player_stone(get_stone(g, create_intersection('A',1))) and is_black_stone(get_stone(g, create_intersection('A',2)))
         
     def test_3(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9'
@@ -484,7 +484,7 @@ class TestPrivateGobanRemoveStone:
         g1 = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         g2 = create_empty_goban(9)
         for i in white_intersections+black_intersections: remove_stone(g1, str_to_intersection(i))
-        assert all(equal_stones(obtain_stone(g1, str_to_intersection(i)),obtain_stone(g2, str_to_intersection(i))) for i in white_intersections + black_intersections)
+        assert all(equal_stones(get_stone(g1, str_to_intersection(i)),get_stone(g2, str_to_intersection(i))) for i in white_intersections + black_intersections)
 
 class TestPrivateGobanRemoveChain:
     def test_1(self):
@@ -493,15 +493,15 @@ class TestPrivateGobanRemoveChain:
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         
         g2 = remove_chain(g, tuple(str_to_intersection(i) for i in white_intersections[:5]))
-        assert all(not is_player_stone(obtain_stone(g, str_to_intersection(i))) for i in white_intersections[:5]) and id(g) == id(g2)
+        assert all(not is_player_stone(get_stone(g, str_to_intersection(i))) for i in white_intersections[:5]) and id(g) == id(g2)
         
     def test_2(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9', 'B1', 'B2', 'B3', 'B4', 'A4', 'C4', 'D9'
         black_intersections = 'D1', 'E2', 'E3', 'E4', 'E5', 'F6', 'F7', 'G5', 'G8', 'G9'
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         
-        _ = remove_chain(g, obtain_chain(g, create_intersection('D',2)))
-        assert all(not is_player_stone(obtain_stone(g, str_to_intersection(i))) for i in white_intersections[:-1])  
+        _ = remove_chain(g, get_chain(g, create_intersection('D',2)))
+        assert all(not is_player_stone(get_stone(g, str_to_intersection(i))) for i in white_intersections[:-1])  
         
     def test_3(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9', 'B1', 'B2', 'B3', 'B4', 'A4', 'C4', 'D9'
@@ -510,7 +510,7 @@ class TestPrivateGobanRemoveChain:
         
         _ = remove_chain(g, tuple(str_to_intersection(i) for i in white_intersections))
         _ = remove_chain(g, tuple(str_to_intersection(i) for i in black_intersections))
-        assert all(not is_player_stone(obtain_stone(g, str_to_intersection(L+N))) for L in 'ABCDEFGHI' for N in '123456789')  
+        assert all(not is_player_stone(get_stone(g, str_to_intersection(L+N))) for L in 'ABCDEFGHI' for N in '123456789')  
   
     def test_4(self):
         white_intersections = 'D2', 'D3', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9', 'B1', 'B2', 'B3', 'B4', 'A4', 'C4', 'D9'
@@ -518,7 +518,7 @@ class TestPrivateGobanRemoveChain:
         g = create_goban(13, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         g2 = create_copy_goban(g)
         _ = remove_chain(g, ())
-        assert all(equal_stones(obtain_stone(g, str_to_intersection(L+N)), obtain_stone(g2, str_to_intersection(L+N))) for L in 'ABCDEFGHI' for N in '123456789') and id(g) != id(g2)  
+        assert all(equal_stones(get_stone(g, str_to_intersection(L+N)), get_stone(g2, str_to_intersection(L+N))) for L in 'ABCDEFGHI' for N in '123456789') and id(g) != id(g2)  
   
 class TestPrivateGobanIsGoban:
     
@@ -685,7 +685,7 @@ class TestPrivateGobanTerritories:
                'A5, B5, C5, A6, B6, C6, A7, B7, C7, D7, A8, B8, C8, D8, A9, B9, C9', 
                'E9')
         hyp = ()
-        for t in obtain_territories(g):
+        for t in get_territories(g):
             hyp +=  (', '.join(intersection_to_str(i) for i in t),)           
         assert ref == hyp
     
@@ -698,7 +698,7 @@ class TestPrivateGobanTerritories:
                 place_stone(g, create_intersection(L,N), p[n])
         ref = ()
         hyp = ()
-        for t in obtain_territories(g):
+        for t in get_territories(g):
             hyp +=  (', '.join(intersection_to_str(i) for i in t),)           
         assert ref == hyp
         
@@ -707,7 +707,7 @@ class TestPrivateGobanTerritories:
         g = create_empty_goban(9)
         ref = ('A1, B1, C1, D1, E1, F1, G1, H1, I1, A2, B2, C2, D2, E2, F2, G2, H2, I2, A3, B3, C3, D3, E3, F3, G3, H3, I3, A4, B4, C4, D4, E4, F4, G4, H4, I4, A5, B5, C5, D5, E5, F5, G5, H5, I5, A6, B6, C6, D6, E6, F6, G6, H6, I6, A7, B7, C7, D7, E7, F7, G7, H7, I7, A8, B8, C8, D8, E8, F8, G8, H8, I8, A9, B9, C9, D9, E9, F9, G9, H9, I9',)
         hyp = ()
-        for t in obtain_territories(g):
+        for t in get_territories(g):
             hyp +=  (', '.join(intersection_to_str(i) for i in t),)           
         assert ref == hyp
         
@@ -725,7 +725,7 @@ class TestPrivateGobanTerritories:
                'M5, L6, M6, K7, L7, M7, J8, K8, L8, I9, J9, K9, H10, I10, J10, G11, H11, I11, F12, G12, H12, E13, F13, G13', 
                'M10, L11, M11, K12, L12, M12, J13, K13, L13')
         hyp = ()
-        for t in obtain_territories(g):
+        for t in get_territories(g):
             hyp +=  (', '.join(intersection_to_str(i) for i in t),)           
         assert ref == hyp
         
@@ -743,7 +743,7 @@ class TestPrivateGobanTerritories:
                'S10, R11, S11, Q12, R12, S12, P13, Q13, R13, S13, O14, P14, Q14, R14, S14, N15, O15, P15, Q15, R15, M16, N16, O16, P16, Q16, L17, M17, N17, O17, P17, K18, L18, M18, N18, O18, J19, K19, L19, M19, N19', 
                'S17, R18, S18, Q19, R19, S19')
         hyp = ()
-        for t in obtain_territories(g):
+        for t in get_territories(g):
             hyp +=  (', '.join(intersection_to_str(i) for i in t),)           
         assert ref == hyp
 
@@ -755,7 +755,7 @@ class TestPrivateGobanDifferenADTjacents:
 
         t = tuple(str_to_intersection(i) for i in ('A1', 'A2', 'A3'))
         ref = 'B1, B2, B3, A4'
-        hyp = ', '.join(intersection_to_str(i) for i in obtain_different_adjacents(g, t))
+        hyp = ', '.join(intersection_to_str(i) for i in get_different_adjacents(g, t))
         assert ref == hyp 
         
     def test_2(self):
@@ -765,7 +765,7 @@ class TestPrivateGobanDifferenADTjacents:
 
         t = tuple(str_to_intersection(i) for i in ('E9', 'D8', 'D7', 'G7', 'G6', 'E1'))
         ref = 'D1, E2, G5, D6, F6, E7, F7, E8, G8, D9, F9'
-        hyp = ', '.join(intersection_to_str(i) for i in obtain_different_adjacents(g, t))
+        hyp = ', '.join(intersection_to_str(i) for i in get_different_adjacents(g, t))
         assert ref == hyp 
         
     def test_3(self):
@@ -775,7 +775,7 @@ class TestPrivateGobanDifferenADTjacents:
 
         t = tuple(str_to_intersection(i) for i in ('B1', 'B2', 'D2', 'B3', 'D3', 'A4', 'B4', 'C4', 'D4', 'D5', 'D6', 'E6', 'E7', 'E8', 'F8', 'F9'))
         ref = 'A1, C1, A2, C2, A3, C3, A5, B5, C5, C6, D7, D8, E9'
-        hyp = ', '.join(intersection_to_str(i) for i in obtain_different_adjacents(g, t))
+        hyp = ', '.join(intersection_to_str(i) for i in get_different_adjacents(g, t))
         assert ref == hyp 
         
     def test_4(self):
@@ -784,21 +784,21 @@ class TestPrivateGobanDifferenADTjacents:
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         t = tuple(str_to_intersection(i) for i in ('E2', 'E3', 'E4', 'E5'))
         ref = 'E1, F2, F3, F4, F5'
-        hyp = ', '.join(intersection_to_str(i) for i in obtain_different_adjacents(g, t))
+        hyp = ', '.join(intersection_to_str(i) for i in get_different_adjacents(g, t))
         assert ref == hyp 
         
     def test_5(self):
         g = create_empty_goban(13)
         t = tuple(create_intersection(L,N) for L in 'ABCDEFGHIJKLM' for N in range(1,14))
         ref = ''
-        hyp = ', '.join(intersection_to_str(i) for i in obtain_different_adjacents(g, t))
+        hyp = ', '.join(intersection_to_str(i) for i in get_different_adjacents(g, t))
         assert ref == hyp 
         
     def test_6(self):
         t = tuple(create_intersection(L,N) for L in 'ABCDEFGHIJKLMNOPQRS' for N in range(1,20))
         g = create_goban(19, t[::2], t[1::2])
         ref = ''
-        hyp = ', '.join(intersection_to_str(i) for i in obtain_different_adjacents(g, t))
+        hyp = ', '.join(intersection_to_str(i) for i in get_different_adjacents(g, t))
         assert ref == hyp 
         
 class TestPrivateGobanPlay:
@@ -869,7 +869,7 @@ class TestPrivateGobanNumPlayerStones:
         black_intersections = 'D1', 'E2', 'E3', 'E4', 'E5', 'F6', 'F7', 'G5', 'G8', 'G9'
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         ref = (17,10)
-        assert ref == obtain_num_player_stones(g)
+        assert ref == get_num_player_stones(g)
         
     def test_2(self):
         g = create_empty_goban(13)
@@ -880,7 +880,7 @@ class TestPrivateGobanNumPlayerStones:
                 if n < 2:
                     place_stone(g, create_intersection(L,N), p[n])
         ref = (42,42)
-        assert ref == obtain_num_player_stones(g)
+        assert ref == get_num_player_stones(g)
 
     def test_3(self):
         g = create_empty_goban(9)
@@ -891,7 +891,7 @@ class TestPrivateGobanNumPlayerStones:
                 if n < 3:
                     place_stone(g, create_intersection(L,N), p[(1+n)%2])
         ref = (11, 22)
-        assert ref == obtain_num_player_stones(g)
+        assert ref == get_num_player_stones(g)
 
 class TestPrivateCalculatePoints:
 
@@ -986,17 +986,17 @@ class TestPrivatePlayerTurn:
     def test_1(self):
         g = create_empty_goban(9)
         ref = (True, "Write down an intersection or 'P' to pass the turn [X]:")
-        assert offline_player_turn(g, create_black_stone(), create_empty_goban(9), 'A1\n') == ref and is_black_stone(obtain_stone(g, create_intersection('A',1)))
+        assert offline_player_turn(g, create_black_stone(), create_empty_goban(9), 'A1\n') == ref and is_black_stone(get_stone(g, create_intersection('A',1)))
 
     def test_2(self):
         g = create_empty_goban(19)
         ref = (True, "Write down an intersection or 'P' to pass the turn [O]:Write down an intersection or 'P' to pass the turn [O]:Write down an intersection or 'P' to pass the turn [O]:Write down an intersection or 'P' to pass the turn [O]:")
-        assert offline_player_turn(g, create_white_stone(), create_empty_goban(19), 'L\n?1\nAA1\nA2\n') == ref and is_white_stone(obtain_stone(g, create_intersection('A',2)))
+        assert offline_player_turn(g, create_white_stone(), create_empty_goban(19), 'L\n?1\nAA1\nA2\n') == ref and is_white_stone(get_stone(g, create_intersection('A',2)))
 
     def test_3(self):
         g = create_empty_goban(13)
         ref = (True, "Write down an intersection or 'P' to pass the turn [O]:Write down an intersection or 'P' to pass the turn [O]:Write down an intersection or 'P' to pass the turn [O]:Write down an intersection or 'P' to pass the turn [O]:")
-        assert offline_player_turn(g, create_white_stone(), create_empty_goban(13), 'D99\nALO\nA?\nI8\n') == ref and is_white_stone(obtain_stone(g, create_intersection('I',8)))
+        assert offline_player_turn(g, create_white_stone(), create_empty_goban(13), 'D99\nALO\nA?\nI8\n') == ref and is_white_stone(get_stone(g, create_intersection('I',8)))
 
     def test_4(self):
         g = create_empty_goban(9)
@@ -1120,7 +1120,7 @@ class TestPrivateADTIntersection:
         c = create_intersection('A', 2)
         l = create_intersection('S',19)
         ref = ('A1', 'B2', 'A3')
-        assert ref == tuple(intersection_to_str(i) for i in obtain_adjacent_intersections(c, l))
+        assert ref == tuple(intersection_to_str(i) for i in get_adjacent_intersections(c, l))
         
     def test_2(self):
         exec(open(f'{ADT_CODE_PATH}/ADT_intersection.py', encoding="utf-8").read(), globals())
@@ -1158,9 +1158,9 @@ class TestPrivateADTGoban:
         black_intersections = create_intersection('E',1), create_intersection('E',3), create_intersection('F',4)
         g = create_goban(13, white_intersections, black_intersections)
  
-        assert all(is_white_stone(obtain_stone(g, i)) for i in white_intersections) and \
-            all(is_black_stone(obtain_stone(g, i)) for i in black_intersections) and \
-                all((not is_player_stone(obtain_stone(g, create_intersection(L,N))) for L in 'LM' for N in range(1,14,2)))
+        assert all(is_white_stone(get_stone(g, i)) for i in white_intersections) and \
+            all(is_black_stone(get_stone(g, i)) for i in black_intersections) and \
+                all((not is_player_stone(get_stone(g, create_intersection(L,N))) for L in 'LM' for N in range(1,14,2)))
 
     def test_4(self):
         exec(open(f'{ADT_CODE_PATH}/TF_intersection.py', encoding="utf-8").read(), globals())
@@ -1169,7 +1169,7 @@ class TestPrivateADTGoban:
         black_intersections = 'D1', 'E2', 'E3', 'E4', 'E5', 'F6', 'F7', 'G5', 'G8', 'G9'
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         ref = 'E2, E3, E4, E5'
-        assert ref ==  ', '.join(intersection_to_str(i) for i in obtain_chain(g, create_intersection('E',3)))
+        assert ref ==  ', '.join(intersection_to_str(i) for i in get_chain(g, create_intersection('E',3)))
         
     def test_5(self):
         exec(open(f'{ADT_CODE_PATH}/TF_intersection.py', encoding="utf-8").read(), globals())
@@ -1178,7 +1178,7 @@ class TestPrivateADTGoban:
         _ = place_stone(g, create_intersection('A',1), create_black_stone()) 
         _ = place_stone(g, create_intersection('A',2), create_black_stone()) 
         _ = remove_stone(g, create_intersection('A',1)) 
-        assert not is_player_stone(obtain_stone(g, create_intersection('A',1))) and is_black_stone(obtain_stone(g, create_intersection('A',2)))
+        assert not is_player_stone(get_stone(g, create_intersection('A',1))) and is_black_stone(get_stone(g, create_intersection('A',2)))
       
     def test_6(self):
         exec(open(f'{ADT_CODE_PATH}/TF_intersection.py', encoding="utf-8").read(), globals())
@@ -1198,7 +1198,7 @@ class TestPrivateADTGoban:
         g = create_goban(9, tuple(str_to_intersection(i) for i in white_intersections), tuple(str_to_intersection(i) for i in black_intersections))
         
         g2 = remove_chain(g, tuple(str_to_intersection(i) for i in white_intersections[:5]))
-        assert all(not is_player_stone(obtain_stone(g, str_to_intersection(i))) for i in white_intersections[:5]) and id(g) == id(g2)
+        assert all(not is_player_stone(get_stone(g, str_to_intersection(i))) for i in white_intersections[:5]) and id(g) == id(g2)
 
     def test_8(self):
         exec(open(f'{ADT_CODE_PATH}/TF_intersection.py', encoding="utf-8").read(), globals())
@@ -1230,7 +1230,7 @@ class TestPrivateADTGoban:
         g = create_empty_goban(13)
         g2 = create_copy_goban(g)
         _ = place_stone(g, create_intersection('A',2), create_black_stone())  
-        assert is_black_stone(obtain_stone(g, create_intersection('A',2))) and not is_player_stone(obtain_stone(g2, create_intersection('A',2)))
+        assert is_black_stone(get_stone(g, create_intersection('A',2))) and not is_player_stone(get_stone(g2, create_intersection('A',2)))
     
     def test_11(self):
         exec(open(f'{ADT_CODE_PATH}/TF_intersection.py', encoding="utf-8").read(), globals())
@@ -1254,8 +1254,8 @@ class TestPrivateADTGobanHLF:
         black_intersections = 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'
         for i in white_intersections: place_stone(g, str_to_intersection(i), b)
         for i in black_intersections: place_stone(g, str_to_intersection(i), p)
-        chain = obtain_chain(g, create_intersection('F',5))
-        liberdades = obtain_different_adjacents(g, chain)
+        chain = get_chain(g, create_intersection('F',5))
+        liberdades = get_different_adjacents(g, chain)
         assert tuple(intersection_to_str(i) for i in liberdades) == ('E3', 'F3', 'G4', 'D5', 'G5', 'E6', 'F6')
         
     def test_2(self):
@@ -1269,7 +1269,7 @@ class TestPrivateADTGobanHLF:
         black_intersections = 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'
         for i in white_intersections: place_stone(g, str_to_intersection(i), b)
         for i in black_intersections: place_stone(g, str_to_intersection(i), p)
-        terr = obtain_territories(g)
+        terr = get_territories(g)
         assert tuple(intersection_to_str(i) for i in terr[0]) == ('A1', 'B1', 'A2', 'B2')
 
     def test_3(self):
@@ -1283,7 +1283,7 @@ class TestPrivateADTGobanHLF:
         black_intersections = 'E4', 'E5', 'F4', 'F5', 'G6', 'G7'
         for i in white_intersections: place_stone(g, str_to_intersection(i), b)
         for i in black_intersections: place_stone(g, str_to_intersection(i), p)
-        assert obtain_num_player_stones(g) == (8, 6)
+        assert get_num_player_stones(g) == (8, 6)
            
     def test_4(self):
         exec(open(f'{ADT_CODE_PATH}/TF_intersection.py', encoding="utf-8").read(), globals())
