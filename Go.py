@@ -132,7 +132,8 @@ def obtain_adjacent_intersections(intersection: 'tuple[str,int]', last_intersect
     :param last_intersection: The intersection in the upper right corner of the Go board.
     :type last_intersection: tuple(str,int)
 
-    :return: A tuple with the intersections adjacent to the given intersection, sorted by the reading order of the Go board.
+    :return: A tuple with the intersections adjacent to the given intersection,
+    sorted by the reading order of the Go board.
     :rtype: tuple(tuple(str,int), ...)
     """
     col, row = obtain_col(intersection), obtain_row(intersection)
@@ -386,14 +387,16 @@ def obtain_chain(goban: list, intersection: 'tuple[str,int]'):
     :param intersection: Any intersection in the goban.
     :type intersection: tuple[str,int]
 
-    :return: A list of intersections in the chain of the given intersection sorted by reading order of the goban.
+    :return: A list of intersections in the chain of the given intersection
+    sorted by reading order of the goban.
     :rtype: list[tuple[str,int]]
     """
     def _find_chain(goban, intersection, visited):
         visited.add(intersection)
         chain = [intersection]
         for adj in obtain_adjacent_intersections(intersection, obtain_last_intersection(goban)):
-            if adj not in visited and equal_stones(obtain_stone(goban, adj), obtain_stone(goban, intersection)):
+            if adj not in visited and equal_stones(obtain_stone(goban, adj),
+            obtain_stone(goban, intersection)):
                 chain.extend(_find_chain(goban, adj, visited))
         return chain
     return sort_intersections(tuple(_find_chain(goban, intersection, set())))
@@ -436,7 +439,8 @@ def remove_chain(goban: list, tuple_intersections: 'tuple[str,int]') -> list:
 
     :param goban: A goban.
     :type goban: list
-    :param tuple_intersections: A tuple containing the intersections that form the chain to be removed.
+    :param tuple_intersections: A tuple containing the intersections
+    that form the chain to be removed.
     :type tuple_intersections: tuple[str,int]
 
     :return: The modified goban with the given chain removed.
@@ -464,14 +468,16 @@ def is_goban(arg: any) -> bool:
 
 def is_valid_intersection(goban: list, intersection: 'tuple[str,int]') -> bool:
     """
-    Verifies if an intersection is valid. (Is in the correct form and within the limits of the goban)
+    Verifies if an intersection is valid.
+    (Is in the correct form and within the limits of the goban)
 
     :param goban: Any goban
     :type goban: list
     :param intersection: Any
     :type intersection: tuple[str,int]
 
-    :return: True if the intersection is an intersection and its within the limits of the goban, False otherwise.
+    :return: True if the intersection is an intersection and
+    its within the limits of the goban, False otherwise.
     :rtype: bool
     """
     return is_goban(goban) and is_intersection(intersection) and \
@@ -557,8 +563,9 @@ def obtain_different_adjacents(goban: list, tuple_intersections: 'tuple[tuple[st
     :param tuple_intersections: A tuple of intersections
     :type tuple_intersections: tuple[tuple[str,int], ...]
 
-    :return: A tuple of adjacent free intersections if the intersections in the given tuple are occupied by player stones
-             or a tuple of intersections occupied by player stones (black or white), if the intersections in the given tuple are free.
+    :return: A tuple of adjacent free intersections if the intersections in
+    the given tuple are occupied by player stones or a tuple of intersections 
+    occupied by player stones (black or white), if the intersections in the given tuple are free.
     :rtype: tuple[tuple[str,int], ...]
     """
     return sort_intersections(tuple({
@@ -682,7 +689,7 @@ def player_turn(goban: list, stone: str, prev_goban: list) -> bool:
         except ValueError:
             continue
 
-def go(n: int, white_intersections: 'tuple[str,...]', black_intersections: 'tuple[str,   ]') -> bool:
+def go(n: int, white_intersections: 'tuple[str,...]', black_intersections: 'tuple[str,...]') -> bool:
     """
     The main function that allows a full game of Go to be played.
 
@@ -696,68 +703,36 @@ def go(n: int, white_intersections: 'tuple[str,...]', black_intersections: 'tupl
     :return: True if the player with white stones wins, False otherwise.
     :rtype: bool
     """
-    if not isinstance(black_intersections, tuple) or not isinstance(white_intersections,tuple):
+    if not all(isinstance(i, tuple) for i in (black_intersections, white_intersections)):
         raise ValueError('go: invalid arguments')
-    internal_white_intersections = []
-    internal_black_intersections = []
-    # Argument Validation
-    # Converts the intersections given in string format to their internal representation.
+
     try:
-        for white_intersection in white_intersections:
-            if isinstance(white_intersection,str):
-                try:
-                    internal_white_intersections.append(str_to_intersection(white_intersection))
-                except ValueError as e:
-                    raise ValueError('go: invalid arguments') from e
-            else:
-                internal_white_intersections.append(white_intersection)
-        for black_intersection in black_intersections:
-            if isinstance(black_intersection,str):
-                try:
-                    internal_black_intersections.append(str_to_intersection(black_intersection))
-                except ValueError as e:
-                    raise ValueError('go: invalid arguments') from e
-            else:
-                internal_black_intersections.append(black_intersection)
-        goban = create_goban(n, tuple(internal_white_intersections), tuple(internal_black_intersections))
-    except (TypeError, ValueError) as e:
+        goban = create_goban(n, tuple(str_to_intersection(i) for i in white_intersections),
+        tuple(str_to_intersection(i) for i in black_intersections))
+    except (ValueError, TypeError) as e: # Need to catch TypeError because of str_to_intersection.
         raise ValueError('go: invalid arguments') from e
 
-    pass_turn = 0 # Counts how many times the players passed their turn.
-    black_player = True # The black player starts
-    old_gobans = []  # To save old goban states.
-    prev_goban = create_copy_goban(goban)
+    skip_turn, player, prev_goban = 0, False, create_copy_goban(goban) # Black starts
 
-    while pass_turn < 2:
-        # Shows the score board
+    while skip_turn < 2:
         points_white, points_black = calculate_points(goban)
-        print("White (O) has", points_white, "points")
-        print("Black (X) has", points_black, "points")
-        old_gobans.append(create_copy_goban(goban))
+        print(f"White (O) has {points_white} points\n"
+              f"Black (X) has {points_black} points\n"
+              f"{goban_to_str(goban)}")
+        current_goban = create_copy_goban(goban)
 
-        if black_player:
-            stone = create_black_stone()
+        stone = create_white_stone() if player else create_black_stone()
+
+        if player_turn(goban, stone, prev_goban):
+            skip_turn = 0
         else:
-            stone = create_white_stone()
+            skip_turn += 1
 
-        # Show the board and play the player turn.
-        print(goban_to_str(goban))
-        current_turn = player_turn(goban, stone, prev_goban)
+        prev_goban = current_goban
+        player = not player
 
-        if not current_turn: # If a player passes their turn.
-            pass_turn += 1
-        else:
-            pass_turn = 0 # Reset counter so that the games only ends if two turns are skipped in a row.
-
-        if len(old_gobans) >= 1:
-            prev_goban = old_gobans[-1] # Gets the previous board state.
-            old_gobans.pop(0) # Removes old gobans to save memory.
-        black_player = not black_player # Changes player.
-
-    # Shows the final board and scoreboard.
-    print("White (O) has", points_white, "points")
-    print("Black (X) has", points_black, "points")
-    print(goban_to_str(goban))
-
-    # Returns True if the white player wins, False otherwise.
-    return points_white >= points_black
+    points_white, points_black = calculate_points(goban)
+    print(f"White (O) has {points_white} points\n"
+          f"Black (X) has {points_black} points\n"
+          f"{goban_to_str(goban)}")
+    return points_white > points_black
