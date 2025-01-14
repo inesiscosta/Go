@@ -1,7 +1,7 @@
 # Go
 Go is an abstract strategy board game for two players, where the objective is to control more territory than your opponent. This repository contains the code to play Go as a text-based game.
 
-The code is written in Python as part of a project for my Fundamentals of Programming class. The primary goal of this project was to practice using Abstract Data Types. The included `.pdf` file contains the instructions provided by the teacher, who also supplied the accompanying pytests (both public and private).
+The code is written in Python as part of a project for my Fundamentals of Programming class. The primary goal of this project was to practice using Abstract Data Types. The included pdf file contains the instructions provided by the teacher, who also supplied the accompanying pytests (both public and private).
 
 ## How to Play
 
