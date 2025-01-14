@@ -9,7 +9,7 @@ The code is written in Python as part of a project for my Fundamentals of Progra
 
 2. **Run the Game**: Navigate the the root directory of this repository and execute the following command in your terminal:
     ```sh
-    $ python PlayGo.py
+    $ python3 Go.py
     ```
 
 3. **Game Board**: The game board is a 9x9, 13x13, or 19x19 grid. The columns are labeled with letters, and the rows are numbered. Here is an example of a 9x9 grid:

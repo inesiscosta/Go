@@ -302,7 +302,8 @@ def create_empty_goban(n: int) -> list:
         raise ValueError('create_empty_goban: invalid argument')
     return [[create_neutral_stone() for _ in range(n)] for _ in range(n)]
 
-def create_goban(n: int, white_intersections: 'tuple[tuple[str,int], ...]', black_intersections: 'tuple[tuple[str,int], ...]') -> list:
+def create_goban(n: int, white_intersections: 'tuple[tuple[str,int], ...]',\
+black_intersections: 'tuple[tuple[str,int], ...]') -> list:
     """
     Creates a Goban with black and white stones in the specified intersections.
 
@@ -554,7 +555,8 @@ def get_territories(goban: list) -> 'tuple[tuple[tuple[str,int], ...], ...]':
                 visited.update(chain)
     return tuple(sort_intersections(tuple(territory)) for territory in territories)
 
-def get_different_adjacents(goban: list, tuple_intersections: 'tuple[tuple[str,int], ...]') -> 'tuple[tuple[str,int], ...]':
+def get_different_adjacents(goban: list, tuple_intersections: 'tuple[tuple[str,int], ...]')\
+-> 'tuple[tuple[str,int], ...]':
     """
     gets the adjacents intersections with different stone types.
 
@@ -736,3 +738,14 @@ def go(n: int, white_intersections: 'tuple[str,...]', black_intersections: 'tupl
           f"Black (X) has {points_black} points\n"
           f"{goban_to_str(goban)}")
     return points_white > points_black
+
+if __name__ == "__main__":
+    while True:
+        try:
+            size = int(input("Enter the size of the Goban (9, 13, or 19): "))
+            if size not in {9, 13, 19}:
+                raise ValueError
+            break
+        except ValueError:
+            print("Invalid size. Please choose a size 9, 13, or 19.")
+    go(size, (), ())
